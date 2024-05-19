@@ -194,15 +194,16 @@ export async function search(request, response) {
     return;
   }
 }
-export async function myflights(request, response) {
+import { myflights as fetchMyFlights } from '../model/better-sqlite/ifly-better.mjs';
+
+export const myflights = async (request, response) => {
   try {
     const { arrival, destination, date } = request.query;
-    const flightData = model.myflights(arrival, destination, date);
+    const flightData = await fetchMyFlights(arrival, destination, date);
     response.render('myflights', { flights: flightData });
-
   } catch (err) {
-    
     console.error("Error fetching flight info", err);
     response.status(500).send("Error fetching flight info: " + err.message);
   }
-}
+};
+

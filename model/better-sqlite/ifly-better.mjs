@@ -131,18 +131,16 @@ export const search = (arrival, destination, date) => {
     }
 }
 
-export const myflights = (arrival, destination,date) => {
-
+export const myflights = (arrival, destination, date) => {
     try {
-        const stmt1 = sql.prepare(`
-            SELECT arrival, destination, price, date, airline FROM flight
-            WHERE arrival = ? AND destination = ? AND date = ?
-        `);
-
-        const result1 = stmt1.all(arrival, destination, date);
-        return result1;
-    }   
-    catch(err) {
-        throw new Error(err);
-    } 
-}
+      const stmt = sql.prepare(`
+        SELECT arrival, destination, price, date, airline
+        FROM flight
+        WHERE arrival = ? AND destination = ? AND date = ?
+      `);
+      const result = stmt.all(arrival, destination, date);
+      return result;
+    } catch(err) {
+      throw new Error(err);
+    }
+  };
